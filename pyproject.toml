@@ -1,0 +1,14 @@
+[project]
+name = "ai-engineering"
+version = "0.1.0"
+description = "AI Engineering study plan — Fase 1 build"
+requires-python = ">=3.11"
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.5", "jupyter>=1.0"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
