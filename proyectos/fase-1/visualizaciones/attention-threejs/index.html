@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Self-Attention 3D — AI Engineering</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23a78bfa'/%3E%3Cstop offset='1' stop-color='%23f472b6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='7' fill='url(%23g)'/%3E%3Ctext x='16' y='22' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='%230a0e1a' text-anchor='middle'%3EAI%3C/text%3E%3C/svg%3E" />
+  <meta name="description" content="Visualización 3D interactiva de single-head self-attention. Tres tokens como puntos en 8D, matrices W_q/W_k/W_v, scores, softmax y suma ponderada." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Three.js via importmap (no build step) -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">AI</div>
+        <div>
+          <div class="brand-title">AI Engineering</div>
+          <div class="brand-subtitle">Visualizaciones interactivas</div>
+        </div>
+      </div>
+      <nav class="tabs" aria-label="Navegación principal">
+        <a class="tab" href="../index.html">Inicio</a>
+        <a class="tab" href="../tokenizer.html">BPE Tokenizer</a>
+        <a class="tab" href="../attention.html">Self-Attention</a>
+        <a class="tab active" href="index.html" aria-current="page">Self-Attention 3D</a>
+      </nav>
+    </header>
+
+    <section class="hero" style="padding: 40px 20px 24px;">
+      <h1 style="font-size: 32px; background: linear-gradient(135deg, #6ee7b7 0%, #a78bfa 50%, #f472b6 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 10px;">
+        Self-Attention · vista 3D
+      </h1>
+      <p style="max-width: 640px; margin: 0 auto;">
+        Misma matemática que la versión 2D, pero con la geometría al frente:
+        tres tokens como nodos en un anillo, vectores Q/K/V como flechas,
+        scores como aristas y partículas fluyendo con los pesos de atención.
+      </p>
+    </section>
+
+    <section class="controls" aria-label="Controles">
+      <div class="control" style="flex: 2;">
+        <label class="control-label" for="input-tokens">Tokens de entrada (máx. 3)</label>
+        <input
+          id="input-tokens"
+          class="control-input"
+          type="text"
+          value="hola, como, estas"
+          spellcheck="false"
+          maxlength="80"
+          aria-describedby="tokens-hint"
+        />
+        <div id="tokens-hint" style="font-size:11px;color:#6b7280;margin-top:4px;">
+          Los embeddings son <strong style="color:#9ba3b5;">vectores de demo</strong>
+          generados por una receta determinística (hash → PRNG) — NO son embeddings pretrained.
+        </div>
+      </div>
+      <div class="control" style="flex: 0 0 auto; min-width: 130px;">
+        <label class="control-label" for="seed-input">Semilla PRNG</label>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input
+            id="seed-input"
+            class="control-input"
+            type="number"
+            min="1"
+            max="99999"
+            step="1"
+            value="42"
+            style="width:80px;"
+            aria-label="Semilla del PRNG para reproducibilidad"
+          />
+          <button id="btn-new-seed" class="btn btn-secondary" type="button" title="Generar nueva semilla" aria-label="Generar nueva semilla aleatoria">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </button>
+        </div>
+      </div>
+      <button id="btn-reload" class="btn btn-ghost" type="button">Reiniciar</button>
+    </section>
+
+    <div class="stepper" aria-label="Progreso de pasos">
+      <div class="step-dots" id="step-dots" role="tablist" aria-label="Pasos de la visualización"></div>
+      <div class="step-label" id="step-label"><strong>Paso 1</strong> · input embeddings</div>
+      <div class="step-counter" id="step-counter">1 / 7</div>
+    </div>
+
+    <section class="stage-three" aria-label="Escena 3D de self-attention">
+      <div class="stage-three-header">
+        <div class="stage-title">Visualización 3D</div>
+        <h2 id="stage-heading">Input embeddings</h2>
+        <p id="stage-description">
+          Cada token es un vector de d_model=8 dimensiones. Estos embeddings
+          son la entrada al bloque de self-attention.
+        </p>
+      </div>
+
+      <div class="stage-three-canvas-wrap">
+        <canvas id="three-canvas" aria-label="Lienzo 3D de self-attention" tabindex="0"></canvas>
+        <div id="three-labels"></div>
+        <div class="projection-note">
+          La escena 3D muestra solo las 3 primeras coordenadas de cada vector.
+          El producto punto y los scores usan las 8 dimensiones completas.
+        </div>
+      </div>
+
+      <div class="stage-caption">
+        <div class="stage-caption-text" id="stage-caption-text">
+          Tres tokens como puntos en 8D.
+        </div>
+        <div class="shape-badge" id="shape-badge" style="display:none;">
+          <span class="shape-badge-label">shape</span>
+          <span id="shape-value"></span>
+        </div>
+      </div>
+    </section>
+
+    <div class="legend" aria-label="Leyenda de colores">
+      <span class="legend-title">Leyenda</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:#6ee7b7"></span>input (x)</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:#a78bfa"></span>Q</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:#f472b6"></span>K</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:#fb923c"></span>V</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:#fbbf24"></span>score / attn</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:#60a5fa"></span>output</span>
+    </div>
+
+    <div class="sidepanels" id="sidepanels">
+      <div class="panel">
+        <div class="panel-title">Operación actual</div>
+        <div id="op-formula" style="font-family: 'JetBrains Mono', monospace;
+                                     font-size: 13px; color: var(--text-secondary);
+                                     padding: 8px 4px; line-height: 1.7;"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Pipeline</div>
+        <div id="pipeline-viz" style="font-family: 'JetBrains Mono', monospace;
+                                      font-size: 12px; color: var(--text-secondary);
+                                      line-height: 1.8;"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Estadísticas</div>
+        <div id="stats-viz" style="font-family: 'JetBrains Mono', monospace;
+                                   font-size: 13px; color: var(--text-secondary);
+                                   padding: 4px;"></div>
+      </div>
+
+      <div class="panel" style="grid-column: 1 / -1;">
+        <div class="panel-title">
+          Matriz numérica del paso
+          <span style="font-size:10px;color:#6b7280;">(celdas · dot product · softmax · output)</span>
+        </div>
+        <div id="matrix-panel" class="matrix-panel"></div>
+      </div>
+    </div>
+
+    <div class="nav-row" role="group" aria-label="Navegación de pasos">
+      <button id="btn-prev" class="btn btn-ghost" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Anterior
+      </button>
+      <div class="nav-group">
+        <button id="btn-auto" class="btn btn-secondary" type="button" aria-label="Reproducir pasos en automático">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Reproducir
+        </button>
+        <button id="btn-next" class="btn btn-primary" type="button">
+          Siguiente
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      Misma matemática que
+      <code style="font-size: 12px;">fase-1/transformer/notebooks/01-self-attention.ipynb</code>
+      y que <a href="../attention.html" style="color:#a78bfa">Self-Attention 2D</a>.
+      Three.js <code style="font-size:12px;">0.161.0</code> desde CDN.
+      Respeta <code style="font-size:12px;">prefers-reduced-motion</code>.
+    </footer>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

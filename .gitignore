@@ -5,3 +5,6 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 *.egg-info/
+
+# Clon externo del currículo (solo lectura, se actualiza con git pull)
+ai-engineering-from-scratch/

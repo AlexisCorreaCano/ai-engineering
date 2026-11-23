@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Engineering — Visualizaciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">AI</div>
+        <div>
+          <div class="brand-title">AI Engineering</div>
+          <div class="brand-subtitle">Visualizaciones interactivas</div>
+        </div>
+      </div>
+      <nav class="tabs">
+        <a class="tab active" href="index.html">Inicio</a>
+        <a class="tab" href="tokenizer.html">BPE Tokenizer</a>
+        <a class="tab" href="attention.html">Self-Attention</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>Cómo aprenden los transformers</h1>
+      <p>
+        Dos visualizaciones paso a paso para entender los mecanismos centrales
+        de un modelo de lenguaje. Sin frameworks, sin librerías — solo SVG,
+        CSS y JavaScript.
+      </p>
+    </section>
+
+    <div class="concept-grid">
+      <a class="concept-card" href="tokenizer.html" style="--card-glow: #6ee7b7, #34d399;">
+        <div class="concept-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 7l8-4 8 4-8 4-8-4z"/>
+            <path d="M4 12l8 4 8-4"/>
+            <path d="M4 17l8 4 8-4"/>
+          </svg>
+        </div>
+        <div class="concept-card-title">BPE Tokenizer</div>
+        <p class="concept-card-desc">
+          Cómo el texto se convierte en números. Bytes, pares, merges y el
+          vocabulario que el modelo aprende del corpus.
+        </p>
+        <div class="concept-card-meta">
+          <span class="concept-card-meta-item">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            8 pasos
+          </span>
+          <span class="concept-card-meta-item">Interactivo</span>
+          <span class="concept-card-meta-item">Texto editable</span>
+        </div>
+      </a>
+
+      <a class="concept-card" href="attention.html" style="--card-glow: #a78bfa, #f472b6;">
+        <div class="concept-card-icon" style="color: var(--c-k);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v6m0 10v6m11-11h-6m-10 0H1m17.07-7.07l-4.24 4.24m-5.66 5.66l-4.24 4.24m12.72 0l-4.24-4.24m-5.66-5.66L3.93 3.93"/>
+          </svg>
+        </div>
+        <div class="concept-card-title">Self-Attention</div>
+        <p class="concept-card-desc">
+          Cómo cada token "mira" a los demás y mezcla información.
+          Embeddings, Q/K/V, scores, softmax y la suma ponderada.
+        </p>
+        <div class="concept-card-meta">
+          <span class="concept-card-meta-item">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            7 pasos
+          </span>
+          <span class="concept-card-meta-item">Matrices animadas</span>
+          <span class="concept-card-meta-item">Heatmap de pesos</span>
+        </div>
+      </a>
+
+      <a class="concept-card" href="attention-threejs/index.html" style="--card-glow: #a78bfa, #60a5fa;">
+        <div class="concept-card-icon" style="color: var(--c-q);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>
+          </svg>
+        </div>
+        <div class="concept-card-title">Self-Attention 3D</div>
+        <p class="concept-card-desc">
+          Misma matemática, geometría al frente. Tres tokens como nodos en un
+          anillo, flechas Q/K/V, aristas de scores y partículas fluyendo con
+          los pesos de atención. Orbit, zoom y click para inspeccionar.
+        </p>
+        <div class="concept-card-meta">
+          <span class="concept-card-meta-item">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            7 pasos
+          </span>
+          <span class="concept-card-meta-item">Three.js / WebGL</span>
+          <span class="concept-card-meta-item">Determinista (PRNG)</span>
+        </div>
+      </a>
+    </div>
+
+    <footer class="footer">
+      Visualizaciones creadas para acompañar el plan de estudio de AI Engineering.
+      Código fuente en <code style="font-size: 12px;">fase-1/visualizaciones/</code>.
+    </footer>
+  </div>
+</body>
+</html>

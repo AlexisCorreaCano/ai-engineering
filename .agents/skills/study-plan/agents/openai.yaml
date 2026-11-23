@@ -1,0 +1,4 @@
+interface:
+  display_name: "Study Plan"
+  short_description: "Diseña planes de estudio basados en objetivos y evidencia"
+  default_prompt: "Usa $study-plan para diseñar un plan de estudio sobre el tema que quiero aprender."
