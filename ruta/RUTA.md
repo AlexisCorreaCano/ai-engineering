@@ -15,19 +15,19 @@
 
 | Etapa | Tema | Avance | Tiempo de lecciones |
 |---|---|---|---|
-| E0 | Diagnóstico y entorno | 3/6 | 3.8 h |
+| E0 | Diagnóstico y entorno | 3/7 | 5.8 h |
 | E1 | Puente: redes neuronales mínimas | 0/9 | 11.5 h |
 | E2 | Transformers y mini-GPT | 0/11 | 14.5 h |
 | E3 | LLM engineering: prompts, salidas estructuradas, embeddings y RAG | 0/11 | 13.5 h |
 | E4 | Evaluación, guardrails y costo | 0/6 | 6.0 h |
 | E5 | Agentes, herramientas y MCP | 0/13 | 13.6 h |
-| E6 | Producción y LLMOps | 0/12 | 13.2 h |
+| E6 | Producción y LLMOps | 0/15 | 18.4 h |
 | E7 | Fine-tuning e inferencia | 0/7 | 11.0 h |
 | E8 | Seguridad y alineación aplicada | 0/5 | 5.8 h |
 | E9 | Producto, consultoría y agentes de código | 0/12 | 13.5 h |
 | E10 | Matemáticas: núcleo (al final, con contexto) | 0/12 | 16.0 h |
-| E11 | ML clásico y matemáticas avanzadas (opcional) | 0/15 | 23.2 h |
-| | **Total** | **3/119** | **145.6 h** |
+| E11 | ML clásico y matemáticas avanzadas (opcional) | 0/16 | 24.9 h |
+| | **Total** | **3/124** | **154.5 h** |
 
 ## E0 · Diagnóstico y entorno
 
@@ -39,6 +39,7 @@
 - [x] <!-- lesson:00-setup-and-tooling/04-apis-and-keys --> **00·04 APIs & Keys** · ~30 min · [material](../ai-engineering-from-scratch/phases/00-setup-and-tooling/04-apis-and-keys/docs/en.md)
 - [ ] <!-- lesson:00-setup-and-tooling/05-jupyter-notebooks --> **00·05 Jupyter Notebooks** · ~30 min · [material](../ai-engineering-from-scratch/phases/00-setup-and-tooling/05-jupyter-notebooks/docs/en.md)
 - [ ] <!-- lesson:00-setup-and-tooling/06-python-environments --> **00·06 Python Environments** · ~30 min · [material](../ai-engineering-from-scratch/phases/00-setup-and-tooling/06-python-environments/docs/en.md)
+- [ ] <!-- lesson:00-setup-and-tooling/13-python-for-ai-engineering --> **00·13 Python for AI Engineering (diagnóstico: saltable si dominas los idioms)** · ~120 min · [material](../ai-engineering-from-scratch/phases/00-setup-and-tooling/13-python-for-ai-engineering/docs/en.md)
 - [ ] <!-- lesson:00-setup-and-tooling/12-debugging-and-profiling --> **00·12 Debugging and Profiling** · ~60 min · [material](../ai-engineering-from-scratch/phases/00-setup-and-tooling/12-debugging-and-profiling/docs/en.md)
 
 ## E1 · Puente: redes neuronales mínimas
@@ -131,9 +132,12 @@
 **Entregable:** Servicio desplegado o simulado con dashboard, SLO, costo estimado y rollback probado.  
 
 - [ ] <!-- lesson:11-llm-engineering/13-production-app --> **11·13 Building a Production LLM Application** · ~120 min · [material](../ai-engineering-from-scratch/phases/11-llm-engineering/13-production-app/docs/en.md)
+- [ ] <!-- lesson:02-ml-fundamentals/19-ml-system-design --> **02·19 ML System Design — From Problem to Deployed Model** · ~110 min · [material](../ai-engineering-from-scratch/phases/02-ml-fundamentals/19-ml-system-design/docs/en.md)
+- [ ] <!-- lesson:02-ml-fundamentals/20-model-monitoring-and-drift --> **02·20 Monitoring Models in Production — Data and Concept Drift** · ~110 min · [material](../ai-engineering-from-scratch/phases/02-ml-fundamentals/20-model-monitoring-and-drift/docs/en.md)
 - [ ] <!-- lesson:00-setup-and-tooling/07-docker-for-ai --> **00·07 Docker for AI** · ~60 min · [material](../ai-engineering-from-scratch/phases/00-setup-and-tooling/07-docker-for-ai/docs/en.md)
 - [ ] <!-- lesson:17-infrastructure-and-production/13-llm-observability --> **17·13 LLM Observability Stack Selection** · ~60 min · [material](../ai-engineering-from-scratch/phases/17-infrastructure-and-production/13-llm-observability/docs/en.md)
 - [ ] <!-- lesson:17-infrastructure-and-production/19-ai-gateways --> **17·19 AI Gateways — LiteLLM, Portkey, Kong AI Gateway, Bifrost** · ~60 min · [material](../ai-engineering-from-scratch/phases/17-infrastructure-and-production/19-ai-gateways/docs/en.md)
+- [ ] <!-- lesson:17-infrastructure-and-production/29-model-demo-interfaces --> **17·29 Model Demo Interfaces — From a Function to a Shareable App** · ~90 min · [material](../ai-engineering-from-scratch/phases/17-infrastructure-and-production/29-model-demo-interfaces/docs/en.md)
 - [ ] <!-- lesson:17-infrastructure-and-production/20-shadow-canary-progressive --> **17·20 Shadow Traffic, Canary Rollout, and Progressive Deployment for LLMs** · ~60 min · [material](../ai-engineering-from-scratch/phases/17-infrastructure-and-production/20-shadow-canary-progressive/docs/en.md)
 - [ ] <!-- lesson:17-infrastructure-and-production/08-inference-metrics-goodput --> **17·08 Inference Metrics — TTFT, TPOT, ITL, Goodput, P99** · ~60 min · [material](../ai-engineering-from-scratch/phases/17-infrastructure-and-production/08-inference-metrics-goodput/docs/en.md)
 - [ ] <!-- lesson:17-infrastructure-and-production/21-ab-testing-llm-features --> **17·21 A/B Testing LLM Features — GrowthBook, Statsig, and the Vibes Problem** · ~60 min · [material](../ai-engineering-from-scratch/phases/17-infrastructure-and-production/21-ab-testing-llm-features/docs/en.md)
@@ -224,4 +228,5 @@
 - [ ] <!-- lesson:03-deep-learning-core/08-weight-initialization --> **03·08 Weight Initialization and Training Stability** · ~90 min · [material](../ai-engineering-from-scratch/phases/03-deep-learning-core/08-weight-initialization/docs/en.md)
 - [ ] <!-- lesson:03-deep-learning-core/09-learning-rate-schedules --> **03·09 Learning Rate Schedules and Warmup** · ~90 min · [material](../ai-engineering-from-scratch/phases/03-deep-learning-core/09-learning-rate-schedules/docs/en.md)
 - [ ] <!-- lesson:03-deep-learning-core/13-debugging-neural-networks --> **03·13 Debugging Neural Networks** · ~90 min · [material](../ai-engineering-from-scratch/phases/03-deep-learning-core/13-debugging-neural-networks/docs/en.md)
+- [ ] <!-- lesson:02-ml-fundamentals/21-feature-stores-and-training-serving-skew --> **02·21 Feature Stores and Training-Serving Skew** · ~100 min · [material](../ai-engineering-from-scratch/phases/02-ml-fundamentals/21-feature-stores-and-training-serving-skew/docs/en.md)
 - [ ] <!-- lesson:07-transformers-deep-dive/14-build-a-transformer-capstone --> **07·14 Build a Transformer from Scratch — The Capstone** · ~120 min · [material](../ai-engineering-from-scratch/phases/07-transformers-deep-dive/14-build-a-transformer-capstone/docs/en.md)
